@@ -22,8 +22,6 @@ class CustomServiceService(QgsService):
     def executeRequest(self, request, response, project):
         response.setStatusCode(200)
         QgsMessageLog.logMessage('Custom service executeRequest')
-        response.write("Custom service executeRequest")
-        response.write("\n")
         custom_props = {}
         for layer_id, layer in QgsProject.instance().mapLayers().items():
             custom_props[layer_id] = {}
