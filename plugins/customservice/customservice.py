@@ -28,7 +28,7 @@ class CustomServiceService(QgsService):
             for prop_key in layer.customPropertyKeys():
                 custom_props[layer_id][prop_key] = layer.customProperty(
                     prop_key)
-        response.write(json.dumps(custom_props))
+        response.write(json.dumps(custom_props, indent=4, sort_keys=True))
 
 
 class CustomService():
