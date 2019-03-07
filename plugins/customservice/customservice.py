@@ -25,6 +25,7 @@ class CustomServiceService(QgsService):
         custom_props = {}
         for layer_id, layer in QgsProject.instance().mapLayers().items():
             custom_props[layer_id] = {}
+            custom_props[layer_id]['layer_name'] = layer.name()
             for prop_key in layer.customPropertyKeys():
                 custom_props[layer_id][prop_key] = layer.customProperty(
                     prop_key)
