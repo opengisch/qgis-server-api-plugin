@@ -1,4 +1,4 @@
 def serverClassFactory(serverIface):
-    from . customservice import GetLayerCustomProperties
+    from . layercustomproperties import GetLayerCustomProperties
     return GetLayerCustomProperties(serverIface)
 
