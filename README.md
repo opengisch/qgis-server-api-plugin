@@ -1,4 +1,4 @@
-# oq-qgis-server-plugin
+# oq-qgis-server-plugins
 
 Experiments with server side QGIS plugins
 
