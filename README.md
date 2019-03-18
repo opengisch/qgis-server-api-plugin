@@ -1,6 +1,6 @@
 # oq-qgis-server-plugins
 
-Experiments with server side QGIS plugins
+Plugins extending QGIS web services
 
 ### Download demos
 
@@ -24,5 +24,5 @@ $ docker exec -ti qgis /bin/bash
 ### Example URL
 
 - http://localhost:8015/ogc/nepal_hazard?SERVICE=WMS&REQUEST=GetCapabilities
-- http://localhost:8015/ogc/nepal_hazard?SERVICE=GetLayerCustomProperties
-
+- http://localhost:8015/ogc/nepal_hazard?SERVICE=EWMS&REQUEST=GetCustomPropertiesByLayerName
+- http://localhost:8015/ogc/nepal_hazard?SERVICE=EWMS&REQUEST=GetCustomPropertiesByLayerId

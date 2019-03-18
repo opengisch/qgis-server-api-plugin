@@ -1,7 +1,7 @@
 [general]
-name=OpenQuake Web Services Plugin for QGIS Server
+name=EWMS Plugin for QGIS Server
 qgisMinimumVersion=3.0
-description=OpenQuake Web Services Plugin for QGIS Server: GetCustomPropertiesByLayerName and GetCustomPropertiesByLayerId 
+description=Web Services for QGIS Server, to get layer custom properties
 version=version 1.0
 author=Paolo Tormene (GEM Foundation)
 email=paolo.tormene@globalquakemodel.org
@@ -10,4 +10,4 @@ server=True
 
 changelog=
 
-about=Adds OpenQuake Web Services to get Layer Custom Properties
+about=Extends WMS, to get QGIS layer custom properties

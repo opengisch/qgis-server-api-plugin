@@ -1,4 +1,3 @@
 def serverClassFactory(serverIface):
-    from . openquakeqgiswebservices import OpenQuakeQGIS
-    return OpenQuakeQGIS(serverIface)
-
+    from . extended_qgis_web_services import EWM
+    return EWM(serverIface)
