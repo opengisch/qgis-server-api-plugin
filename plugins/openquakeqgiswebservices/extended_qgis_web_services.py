@@ -71,7 +71,7 @@ class EWMS(QgsService):
                       % (layer, filter_prop, custom_props[layer][filter_prop]))
                 filter_prop_value = filter_props[filter_prop]
                 if custom_props[layer][filter_prop] != filter_prop_value:
-                    # del custom_props[layer]
+                    del custom_props[layer]
                     break
         response.setStatusCode(200)
         response.write(
