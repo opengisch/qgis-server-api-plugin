@@ -8,6 +8,6 @@ jobs:
     install:
       - docker run -v $(pwd)/demos/projects:/io/data -v $(pwd)/plugins:/io/plugins -d -p 8015:80 openquake/qgis-server:stable
     script:
-      - curl -Ss http://localhost:8015/ogc/nepal_hazard?SERVICE=WMS&REQUEST=GetCapabilities
-      - curl -Ss http://localhost:8015/ogc/nepal_hazard?SERVICE=GetLayerCustomProperties
+      - curl http://localhost:8015/ogc/nepal_hazard?SERVICE=WMS&REQUEST=GetCapabilities
+      - curl http://localhost:8015/ogc/nepal_hazard?SERVICE=EWMS&REQUEST=GetCustomProperties
 

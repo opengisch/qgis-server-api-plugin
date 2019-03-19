@@ -1,0 +1,2 @@
+SERVICE=GetCustomPropertiesByLayerName
+SERVICE=GetCustomPropertiesByLayerId

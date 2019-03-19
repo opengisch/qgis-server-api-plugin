@@ -1,7 +1,7 @@
 [general]
-name=QGIS Server Get Layer Custom Properties Plugin
+name=EWMS Plugin for QGIS Server
 qgisMinimumVersion=3.0
-description=QGIS Server Get Layer Custom Properties Plugin 
+description=Web Services for QGIS Server, to get layer custom properties
 version=version 1.0
 author=Paolo Tormene (GEM Foundation)
 email=paolo.tormene@globalquakemodel.org
@@ -10,4 +10,4 @@ server=True
 
 changelog=
 
-about=Adds Custom Service to get Layer Custom Properties
+about=Extends WMS, to get QGIS layer custom properties
