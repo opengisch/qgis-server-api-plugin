@@ -24,5 +24,4 @@ $ docker exec -ti qgis /bin/bash
 ### Example URL
 
 - http://localhost:8015/ogc/nepal_hazard?SERVICE=WMS&REQUEST=GetCapabilities
-- http://localhost:8015/ogc/nepal_hazard?SERVICE=EWMS&REQUEST=GetCustomPropertiesByLayerName
-- http://localhost:8015/ogc/nepal_hazard?SERVICE=EWMS&REQUEST=GetCustomPropertiesByLayerId
+- http://localhost:8015/ogc/nepal_hazard?SERVICE=EWMS&REQUEST=GetCustomProperties
