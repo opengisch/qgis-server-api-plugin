@@ -17,8 +17,8 @@ $ docker run -v $(pwd)/demos/projects:/io/data -v $(pwd)/plugins:/io/plugins --n
 ### Debug
 
 ```bash
+$ docker logs [-f] qgis
 $ docker exec -ti qgis /bin/bash
-> cat /tmp/qgis-server.log
 ```
 
 ### Example URL
