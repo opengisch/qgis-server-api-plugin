@@ -18,31 +18,35 @@ class EWMS(QgsService):
 
     def executeRequest(self, request, response, project):
         if request.parameters()['REQUEST'] == 'GetCustomPropertiesByLayerName':
-            service = self._get_custom_properties_by_layer_name
+            dict_key = 'name'
         elif request.parameters()['REQUEST'] == 'GetCustomPropertiesByLayerId':
-            service = self._get_custom_properties_by_layer_id
+            dict_key = 'id'
         else:
             response.setStatusCode(400)
             response.write("Missing or invalid 'REQUEST' parameter")
         try:
-            service(request, response, project)
+            self._get_custom_properties_by_layer(
+                request, response, project, dict_key)
         except Exception as exc:
             response.setStatusCode(500)
             response.write("An error occurred: %s" % exc)
 
-    def _get_custom_properties_by_layer_name(self, request, response, project):
+    def _get_custom_properties_by_layer(
+            self, request, response, project, dict_key):
+        if dict_key not in ('name', 'id'):
+            raise ValueError('Unexpected dict_key: %s' % dict_key)
         try:
-            layer_names_str = request.parameters()['LAYERS']
+            layer_keys_str = request.parameters()['LAYERS']
         except KeyError:
-            layer_names_str = None
+            layer_keys_str = None
         try:
             filter_str = request.parameters()['FILTER']
         except KeyError:
             filter_str = None
-        if layer_names_str:
-            layer_names = layer_names_str.split(',')
+        if layer_keys_str:
+            layer_keys = layer_keys_str.split(',')
         else:
-            layer_names = None
+            layer_keys = None
         if filter_str:
             filter_prop_items = [filter_prop.split(':')
                                  for filter_prop in filter_str.split(',')]
@@ -54,35 +58,33 @@ class EWMS(QgsService):
         custom_props = {}
         for layer_id, layer in project.mapLayers().items():
             layer_name = layer.name()
-            if layer_names and layer_name not in layer_names:
-                continue
-            custom_props[layer_name] = {}
-            custom_props[layer_name]['layer_id'] = layer_id
+            if dict_key == 'name':
+                custom_props_key = layer_name
+            else:
+                custom_props_key = layer_id
+            if layer_keys:
+                if dict_key == 'name' and layer_name not in layer_keys:
+                    continue
+                if dict_key == 'id' and layer_id not in layer_keys:
+                    continue
+            custom_props[custom_props_key] = {}
+            if dict_key == 'name':
+                custom_props[layer_name]['layer_id'] = layer_id
+            else:
+                custom_props[layer_id]['layer_name'] = layer_name
             for prop in layer.customPropertyKeys():
                 prop_value = layer.customProperty(prop)
-                custom_props[layer_name][prop] = prop_value
+                custom_props[custom_props_key][prop] = prop_value
         custom_props_filtered = custom_props.copy()
-        for filter_prop in filter_props:
-            for layer in custom_props:
-                filter_prop_value = filter_props[filter_prop]
-                if custom_props[layer][filter_prop] != filter_prop_value:
-                    del custom_props_filtered[layer]
+        if filter_props:
+            for filter_prop in filter_props:
+                for layer in custom_props:
+                    filter_prop_value = filter_props[filter_prop]
+                    if custom_props[layer][filter_prop] != filter_prop_value:
+                        del custom_props_filtered[layer]
         response.setStatusCode(200)
         response.write(
             json.dumps(custom_props_filtered, indent=4, sort_keys=True))
-
-    def _get_custom_properties_by_layer_id(self, request, response, project):
-        custom_props = {}
-        for layer_id, layer in project.mapLayers().items():
-            layer_name = layer.name()
-            custom_props[layer_id] = {}
-            custom_props[layer_id]['layer_name'] = layer_name
-            for prop_key in layer.customPropertyKeys():
-                custom_props[layer_id][prop_key] = (
-                    layer.customProperty(prop_key))
-        response.setStatusCode(200)
-        response.write(
-            json.dumps(custom_props, indent=4, sort_keys=True))
 
 
 class EWM():
