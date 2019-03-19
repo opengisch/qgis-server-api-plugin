@@ -1,5 +1,5 @@
 import json
-from qgis.server import QgsService
+from qgis.server import QgsService, QgsServerProjectUtils
 
 
 class EWMS(QgsService):
@@ -17,24 +17,22 @@ class EWMS(QgsService):
         return True
 
     def executeRequest(self, request, response, project):
-        if request.parameters()['REQUEST'] == 'GetCustomPropertiesByLayerName':
-            dict_key = 'name'
-        elif request.parameters()['REQUEST'] == 'GetCustomPropertiesByLayerId':
-            dict_key = 'id'
-        else:
+        if request.parameters()['REQUEST'] != 'GetCustomProperties':
             response.setStatusCode(400)
             response.write("Missing or invalid 'REQUEST' parameter")
-        try:
-            self._get_custom_properties_by_layer(
-                request, response, project, dict_key)
-        except Exception as exc:
-            response.setStatusCode(500)
-            response.write("An error occurred: %s" % exc)
+        else:
+            try:
+                self._get_custom_properties_by_layer(
+                    request, response, project)
+            except Exception as exc:
+                response.setStatusCode(500)
+                response.write("An error occurred: %s" % exc)
 
-    def _get_custom_properties_by_layer(
-            self, request, response, project, dict_key):
-        if dict_key not in ('name', 'id'):
-            raise ValueError('Unexpected dict_key: %s' % dict_key)
+    def _get_custom_properties_by_layer(self, request, response, project):
+        if QgsServerProjectUtils.wmsUseLayerIds:
+            dict_key = 'id'
+        else:
+            dict_key = 'name'
         try:
             layer_keys_str = request.parameters()['LAYERS']
         except KeyError:
