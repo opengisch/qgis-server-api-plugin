@@ -29,7 +29,7 @@ class EWMS(QgsService):
                 response.write("An error occurred: %s" % exc)
 
     def _get_custom_properties_by_layer(self, request, response, project):
-        if QgsServerProjectUtils.wmsUseLayerIds:
+        if QgsServerProjectUtils.wmsUseLayerIds(project):
             dict_key = 'id'
         else:
             dict_key = 'name'
