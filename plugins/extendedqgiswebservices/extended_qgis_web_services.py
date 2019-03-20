@@ -17,7 +17,7 @@ class EWMS(QgsService):
         return True
 
     def executeRequest(self, request, response, project):
-        if request.parameters()['REQUEST'] != 'GetCustomProperties':
+        if request.parameters()['REQUEST'] != 'GetLayerCustomProperties':
             response.setStatusCode(400)
             response.write("Missing or invalid 'REQUEST' parameter")
         else:
