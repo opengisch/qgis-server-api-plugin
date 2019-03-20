@@ -1,2 +1,4 @@
-SERVICE=GetCustomPropertiesByLayerName
-SERVICE=GetCustomPropertiesByLayerId
+```
+SERVICE=EWMS
+REQUEST=GetLayerCustomProperties
+```
