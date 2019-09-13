@@ -55,7 +55,9 @@ class EWMS(QgsService):
             filter_props = None
         custom_props = {}
         for layer_id, layer in project.mapLayers().items():
-            layer_name = layer.name()
+            # If a shortname is set, we must use it instead of
+            # the plain layer name
+            layer_name = layer.shortName() or layer.name()
             if dict_key == 'name':
                 custom_props_key = layer_name
             else:
