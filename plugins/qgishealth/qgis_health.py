@@ -1,5 +1,5 @@
 import json
-from qgis.core.Qgis import QGIS_VERSION
+from qgis.core import Qgis
 from qgis.server import QgsService
 
 
@@ -21,7 +21,7 @@ class HC(QgsService):
         try:
             status = {
                 'status': 200,
-                'version': QGIS_VERSION,
+                'version': Qgis.QGIS_VERSION,
             }
             response.setStatusCode(200)
             response.write(
