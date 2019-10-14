@@ -28,7 +28,7 @@ class HC(QgsService):
             }
             response.setStatusCode(200)
             response.write(
-                json.dumps(status, indent=4, sort_keys=True))
+                json.dumps(status, indent=4))
         except Exception as exc:
             response.setStatusCode(500)
             response.write("An error occurred: %s" % exc)
