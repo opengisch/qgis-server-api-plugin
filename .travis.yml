@@ -8,7 +8,13 @@ jobs:
     install:
       - docker run -v $(pwd)/demos/projects:/io/data -v $(pwd)/plugins:/io/plugins -d -p 8015:80 openquake/qgis-server:stable
     script:
-      - curl http://localhost:8015/ogc/nepal_hazard?service=WMS&request=GetCapabilities
+      - sleep 10 && curl http://localhost:8015/ogc/nepal_hazard?service=WMS&request=GetCapabilities
       - curl http://localhost:8015/ogc/nepal_hazard?service=EWMS&request=GetLayerCustomProperties
       - curl http://localhost:8015/ogc/nepal_hazard?service=HC
 
+  - stage: build
+    env: HealthCheck
+    install:
+      - docker run -v $(pwd)/demos/projects:/io/data -v $(pwd)/plugins:/io/plugins -d -p 8015:80 openquake/qgis-server:stable
+    script:
+      - sleep 10 && curl http://localhost:8015/ogc/nepal_hazard?service=HC

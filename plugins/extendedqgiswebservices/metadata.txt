@@ -1,6 +1,6 @@
 [general]
 name=EWMS Plugin for QGIS Server
-qgisMinimumVersion=3.0
+qgisMinimumVersion=3.4
 description=Web Services for QGIS Server, to get layer custom properties
 version=version 1.0
 author=Paolo Tormene (GEM Foundation)
