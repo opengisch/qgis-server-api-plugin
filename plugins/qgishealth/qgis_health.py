@@ -27,11 +27,14 @@ class HC(QgsService):
                 'platform': platform.platform()
             }
             response.setStatusCode(200)
-            response.write(
-                json.dumps(status, indent=4))
         except Exception as exc:
+            status = {
+                'status': 500,
+                'exception': exc
+            }
             response.setStatusCode(500)
-            response.write("An error occurred: %s" % exc)
+        # Write the response as json
+        response.write(json.dumps(status, indent=4))
 
 
 class HealthCheck():
