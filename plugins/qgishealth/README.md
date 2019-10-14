@@ -1,7 +1,13 @@
-QGIS HealthCheck plugin
+# QGIS HealthCheck plugin
 
 ```
-SERVICE=HC
+service=HC
+```
+
+Request:
+
+```
+curl http://localhost:8015/ogc/nepal_hazard?service=HC
 ```
 
 Returns:
