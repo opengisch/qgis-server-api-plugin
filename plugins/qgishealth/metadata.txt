@@ -1,0 +1,10 @@
+[general]
+name=Healthcheck for QGIS Server
+qgisMinimumVersion=3.4
+description=Healthcheck for QGIS Server, it returns also server version
+version=version 1.0
+author=Daniele Viganò (GEM Foundation)
+email=daniele.vigano@globalquakemodel.org
+; if True it's a server plugin
+server=True
+changelog=

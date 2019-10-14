@@ -1,0 +1,4 @@
+```
+SERVICE=EWMS
+REQUEST=GetLayerCustomProperties
+```
