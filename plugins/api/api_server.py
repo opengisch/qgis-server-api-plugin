@@ -24,8 +24,8 @@ __copyright__ = '(C) 2019, Marco Bernasocchi - OPENGIS.ch'
 
 from qgis.core import QgsMessageLog, Qgis
 
-from  api.api_service import ApiService
-from api.api_filter import ApiFilter
+from  .api_service import ApiService
+from .api_filter import ApiFilter
 
 class ApiServer:
     """Plugin for QGIS server
