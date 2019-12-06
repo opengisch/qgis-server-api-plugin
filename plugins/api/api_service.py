@@ -36,10 +36,3 @@ class ApiService(QgsService):
         finally:
             QgsMessageLog.logMessage(msg, 'Server', level)
             response.write(msg)
-
-
-class ApiServicePlugin():
-
-    def __init__(self, serverIface):
-        self.serv = ApiService()
-        serverIface.serviceRegistry().registerService(ApiService())

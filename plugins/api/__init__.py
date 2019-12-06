@@ -30,5 +30,5 @@ def serverClassFactory(serverIface):  # pylint: disable=invalid-name
     #
     # from .api_service import ApiFilter
     # return ApiFilter(serverIface)
-    from .api_service import ApiServicePlugin
-    return ApiServicePlugin(serverIface)
+    from .api_server import ApiServer
+    return ApiServer(serverIface)
