@@ -16,6 +16,10 @@ We need to download the plugin, and tell QGIS Server where the plugins are store
 For example on Debian:
 
 ```
+if using openquake/qgis-server you can do 
+docker run -v $(pwd)/demos/projects:/io/data -v $(pwd)/plugins:/io/plugins -e QGIS_SERVER_LOG_LEVEL=0 --name qgis --rm -tid -p 8010:80 openquake/qgis-server:3.10 && docker logs -f qgis
+
+
 # Create needed directory to store plugins
 mkdir -p /srv/qgis/plugins
 
