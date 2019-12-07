@@ -60,12 +60,11 @@ class ApiFilter(QgsServerFilter):
         """
         Set response with given parameters
         """
-        self.request.clearHeaders()
-        self.request.setInfoFormat('text/json')
-        self.request.setHeader('Content-type', 'text/json')
-        self.request.setHeader('Status', status)
-        self.request.clearBody()
-        self.request.appendBody(json.dumps(body))
+        self.request.clear()
+        # self.request.setInfoFormat('text/json')
+        self.request.setRequestHeader('Content-type', 'text/json')
+        self.request.setRequestHeader('Status', status)
+        #self.request.appendBody(json.dumps(body))
 
     def responseComplete(self):
         """
