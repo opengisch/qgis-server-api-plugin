@@ -1,8 +1,17 @@
 from qgis.core import QgsProject, QgsRasterLayer
 
 
-def add_raster_layer(
-        path, url, name, shortname, is_basemap, provider='wms'):
+class ApiError(RuntimeError):
+    def __init__(self, message, errors=None):
+        super().__init__(message)
+        self.errors = errors
+
+
+def simple_test(path, name, provider='wms'):
+    return path, name, provider
+
+
+def add_raster_layer(path, url, name, shortname, is_basemap, provider='wms'):
     """Add a raster layer to the project,
     path: path of the project, relative to the projects' directory
 

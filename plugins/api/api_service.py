@@ -1,6 +1,8 @@
-from qgis.server import (QgsConfigCache, QgsService)
+from qgis._core import QgsLogger
+from qgis.server import (QgsService)
 from qgis.core import QgsMessageLog, Qgis
 
+import api.api_calls as calls
 
 class ApiService(QgsService):
 
@@ -17,22 +19,30 @@ class ApiService(QgsService):
         return True
 
     def executeRequest(self, request, response, project):
+        kwargs = request.parameters()
+        kwargs = {k.lower(): v for k, v in kwargs.items()}
+        del(kwargs['service'])
+        map = kwargs.pop('map')
+        call = kwargs.pop('request')
 
-        map = request.parameters()['MAP']
         QgsMessageLog.logMessage(
-            'ApiService service executeRequest for %s' % map,
+            'ApiService service executeRequest CALL %s for %s -- %s ' % (
+                call, map, request.parameters()),
             'Server',
             Qgis.Info
             )
+        QgsLogger.debug(str(kwargs))
         try:
-            QgsConfigCache.instance().removeEntry(map)
-            msg = 'Success - cache cleared'
+            # get the API method from the CALL parameter
+            api_call = getattr(calls, call)
+            # convert parameters to kwargs and dynamically call the correct API
+            result = api_call(**kwargs)
             level = Qgis.Info
             response.setStatusCode(200)
-        except:
-            msg = 'Fail - cache not cleared'
+        except (TypeError, calls.ApiError) as e:
+            result = str(e)
             level = Qgis.Warning
             response.setStatusCode(500)
         finally:
-            QgsMessageLog.logMessage(msg, 'Server', level)
-            response.write(msg)
+            QgsMessageLog.logMessage(str(result), 'Server', level)
+            response.write(str(result))
