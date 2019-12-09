@@ -7,11 +7,20 @@ class ApiError(RuntimeError):
         self.errors = errors
 
 
-def simple_test(path, name, provider='wms'):
-    return path, name, provider
+# Dynamic API generation #####################################################
+# All functions in this module MUST have a first positional parameter called
+# MAP. This is the path to the qgs file that is being edited. It is the
+# content of the MAP url parameter
+# all other parameters are poassed as kwargs from ApiService.executeRequest
+# ############################################################################
+
+def simple_test(MAP, name, provider='wms'):
+    if name == 'mini-me':
+        raise ApiError("I'm Austin Powers, I got you")
+    return MAP, name, provider
 
 
-def add_raster_layer(path, url, name, shortname, is_basemap, provider='wms'):
+def add_raster_layer(MAP, url, name, shortname, is_basemap, provider='wms'):
     """Add a raster layer to the project,
     path: path of the project, relative to the projects' directory
 
@@ -22,7 +31,7 @@ def add_raster_layer(path, url, name, shortname, is_basemap, provider='wms'):
     layer.setShortName(shortname)
 
     project = QgsProject()
-    project.read(path)
+    project.read(MAP)
 
     project = QgsProject.instance()
 
@@ -34,10 +43,23 @@ def add_raster_layer(path, url, name, shortname, is_basemap, provider='wms'):
 
 
 if __name__ == '__main__':
-    add_raster_layer(
-        '/home/pippo/pippo.qgs',
-        'type=xyz&&url=http://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
-        'CartoDb Dark Matter',
-        'cartodb-dark-matter',
-        False,
-        True)
+    import requests
+    urls = {}
+    base_url = 'http://localhost:8010/ogc/nepal_hazard?service=API'
+    urls[base_url + '&request=simple_test&name=good'] = 200
+    urls[base_url + '&request=simple_test&name=mini-me'] = 500
+    urls[base_url + '&request=simple_test'] = 500
+    urls[base_url +
+                '&request=add_raster_layer'
+                '&url=type%3Dxyz%26%26url%3Dhttp%3A%2F%2Fbasemaps.cartocdn.com%2Fdark_all%2F%7Bz%7D%2F%7Bx%7D%2F%7By%7D.png'
+                '&name=CartoDb%20Dark%20Matter'
+                '&shortname=cartodb-dark-matter'
+                '&is_basemap=true'
+                ] = 200
+    for url, status in urls.items():
+        print(url)
+        response = requests.get(url)
+        if response.status_code != status:
+            raise RuntimeError('Expected status code {}, got {}'.format(
+                status, response.status_code))
+        print(response.text)

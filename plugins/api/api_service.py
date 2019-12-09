@@ -1,6 +1,6 @@
+import json
 from qgis._core import QgsLogger
 from qgis.server import (QgsService)
-from qgis.core import QgsMessageLog, Qgis
 
 import api.api_calls as calls
 
@@ -20,29 +20,44 @@ class ApiService(QgsService):
 
     def executeRequest(self, request, response, project):
         kwargs = request.parameters()
+        # make kwargs keys lowercase
         kwargs = {k.lower(): v for k, v in kwargs.items()}
-        del(kwargs['service'])
-        map = kwargs.pop('map')
-        call = kwargs.pop('request')
 
-        QgsMessageLog.logMessage(
-            'ApiService service executeRequest CALL %s for %s -- %s ' % (
-                call, map, request.parameters()),
-            'Server',
-            Qgis.Info
-            )
-        QgsLogger.debug(str(kwargs))
+        # remove unused parameters service, map and request
+        del(kwargs['service'])
+        try:
+            # make map uppercase so it does not conflict with python map
+            # function
+            map_path = kwargs.pop('map')
+            kwargs['MAP'] = map_path
+
+            # remove the method to be called from the kwargs
+            call = kwargs.pop('request')
+        except KeyError:
+            error = "REQUEST and MAP parameter are mandatory"
+            self.write_500(response, error)
+            return False
+
+        QgsLogger.debug('KWARGS: %s' % str(kwargs))
         try:
             # get the API method from the CALL parameter
             api_call = getattr(calls, call)
             # convert parameters to kwargs and dynamically call the correct API
             result = api_call(**kwargs)
-            level = Qgis.Info
-            response.setStatusCode(200)
-        except (TypeError, calls.ApiError) as e:
-            result = str(e)
-            level = Qgis.Warning
-            response.setStatusCode(500)
-        finally:
-            QgsMessageLog.logMessage(str(result), 'Server', level)
-            response.write(str(result))
+            self.write_response(response, result)
+        except (TypeError, AttributeError, calls.ApiError) as e:
+            self.write_500(response, e)
+
+    @staticmethod
+    def write_response(response, body, status_code=200):
+        response.setStatusCode(status_code)
+        body = str(body)
+        json_resp = {
+            'status': status_code,
+            'body': body
+            }
+        QgsLogger.debug(body)
+        response.write(json.dumps(json_resp))
+
+    def write_500(self, response, error):
+        self.write_response(response, error, 500)
