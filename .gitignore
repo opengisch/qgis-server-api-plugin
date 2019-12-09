@@ -23,6 +23,17 @@ wheels/
 pip-wheel-metadata/
 share/python-wheels/
 *.egg-info/
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
 .installed.cfg
 *.egg
 MANIFEST
@@ -32,6 +43,8 @@ MANIFEST
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
+lib
+lib64
 
 # Installer logs
 pip-log.txt
@@ -44,6 +57,7 @@ htmlcov/
 .coverage
 .coverage.*
 .cache
+.tox
 nosetests.xml
 coverage.xml
 *.cover
@@ -60,10 +74,22 @@ coverage.xml
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
 
 # Flask stuff:
 instance/
 .webassets-cache
+*.orig
+*.rej
+*~
+*.o
+*.swp
+*.pyc
+*.DS_Store
+.idea
 
 # Scrapy stuff:
 .scrapy
