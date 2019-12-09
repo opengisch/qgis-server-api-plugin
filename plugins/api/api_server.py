@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
-    QGIS Server Plugin Filters: Add a new request to call ApiService QGIS server
+    QGIS Server ApiService: Add a new request to call ApiService QGIS server
     ---------------------
     Date                 : February 2019
     Copyright            : (C) 2019 by Marco Bernasocchi - OPENGIS.ch
@@ -28,8 +28,7 @@ from .api_service import ApiService
 # from .api_filter import ApiFilter
 
 class ApiServer:
-    """Plugin for QGIS server
-    this plugin loads api filter"""
+    """Plugin for QGIS server this plugin loads the ApiService"""
 
     def __init__(self, serverIface):
         # Save reference to the QGIS server interface

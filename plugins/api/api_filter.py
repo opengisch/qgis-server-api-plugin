@@ -64,7 +64,7 @@ class ApiFilter(QgsServerFilter):
         # self.request.setInfoFormat('text/json')
         self.request.setRequestHeader('Content-type', 'text/json')
         self.request.setRequestHeader('Status', status)
-        #self.request.appendBody(json.dumps(body))
+        # self.request.appendBody(json.dumps(body))
 
     def responseComplete(self):
         """

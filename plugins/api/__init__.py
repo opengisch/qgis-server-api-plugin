@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 /***************************************************************************
-    QGIS Server Plugin Filters: Add a new request to call ApiService QGIS server
+    QGIS Server Plugin ApiService: Add a new request to call ApiService
     ---------------------
     Date                 : February 2019
     Copyright            : (C) 2019 by Marco Bernasocchi - OPENGIS.ch
