@@ -13,7 +13,7 @@ class ApiService(QgsService):
         return "API"
 
     def version(self):
-        return "0.0.1"
+        return "0.0.2"
 
     def allowMethod(method):
         return True
