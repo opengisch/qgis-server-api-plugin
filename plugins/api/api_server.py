@@ -25,7 +25,7 @@ __copyright__ = '(C) 2019, Marco Bernasocchi - OPENGIS.ch'
 from qgis.core import QgsMessageLog, Qgis
 
 from .api_service import ApiService
-# from .api_filter import ApiFilter
+
 
 class ApiServer:
     """Plugin for QGIS server this plugin loads the ApiService"""
@@ -38,9 +38,3 @@ class ApiServer:
         #register service
         self.serv = ApiService()
         serverIface.serviceRegistry().registerService(ApiService())
-
-        # add filters
-        #try:
-        #    serverIface.registerFilter(ApiFilter(serverIface), 50)
-        #except Exception as e:
-        #    QgsMessageLog.logMessage("api - Error loading filter: %s" % e )

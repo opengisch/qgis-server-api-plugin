@@ -27,8 +27,6 @@ def serverClassFactory(serverIface):  # pylint: disable=invalid-name
     :param iface: A QGIS Server interface instance.
     :type iface: QgsServerInterface
     """
-    #
-    # from .api_service import ApiFilter
-    # return ApiFilter(serverIface)
+
     from .api_server import ApiServer
     return ApiServer(serverIface)
