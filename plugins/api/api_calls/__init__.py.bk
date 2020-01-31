@@ -1,0 +1,46 @@
+from qgis.server import (
+    QgsServerOgcApi,
+    QgsServerQueryStringParameter,
+    )
+
+from .generic_handler import GenericHandler
+
+
+def handle_test(handler, context):
+    # raise RuntimeError(handler, context)
+    """Simple mirror: returns the parameters"""
+    params = handler.values(context)
+    handler.write(params, context)
+
+
+HANDLE_TEST = GenericHandler(
+    handle_test,
+    "/test",
+    "handlerTest",
+    "First of its name Test",
+    "The first handler ever",
+    "Handler One Link Title",
+    QgsServerOgcApi.data,
+    [QgsServerQueryStringParameter("value1", True, QgsServerQueryStringParameter.Type.Double, "a double value")]
+    )
+
+HANDLE_TEST2 = GenericHandler(
+    handle_test,
+    "/2test",
+    "handlerTest2",
+    "Second of its name Test",
+    "The econd handler ever",
+    "Handler two Link Title",
+    QgsServerOgcApi.data,
+    [QgsServerQueryStringParameter("value1", True, QgsServerQueryStringParameter.Type.Double, "a double value")]
+    )
+
+HANDLERS = [HANDLE_TEST, HANDLE_TEST2]
+
+
+def register_handlers(api):
+    import inspect
+    for handler in HANDLERS:
+        #handler.handleRequest(2)
+        # raise RuntimeError(lines)
+        api.registerHandler(handler)

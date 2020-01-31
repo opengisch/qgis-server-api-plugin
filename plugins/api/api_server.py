@@ -25,10 +25,13 @@ __copyright__ = '(C) 2019, Marco Bernasocchi - OPENGIS.ch'
 from qgis.server import QgsServerOgcApi
 from qgis.core import QgsMessageLog, Qgis
 
-from .api_handler import HandlerOne
+#from api.api_calls import register_handlers
 
 # can be tested with
 # docker run -p8010:80 -v `pwd`/api/qgis-server-nginx.conf:/etc/nginx/nginx.conf -v `pwd`/api:/io/plugins/api:ro -v /home/marco/tmp/demo_projects/:/io/data:ro --rm --name qgistest openquake/qgis-server:3.10
+
+from api.api_calls.demo_handler import DemoHandler
+
 
 class ApiServer:
     """Plugin for QGIS server this plugin loads the ApiService"""
@@ -45,6 +48,7 @@ class ApiServer:
                               "A firs API",
                               "1.0")
         # register handlers
-        h = HandlerOne()
-        api.registerHandler(h)
+        #register_handlers(api)
+        handler = DemoHandler()
+        api.registerHandler(handler)
         self.serverIface.serviceRegistry().registerApi(api)
